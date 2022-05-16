@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultrag.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="layout/main.html">
+<body style="background-color: thistle">
+
+<div layout:fragment="mainContentPage">
+
+    <div class="container " th:if="${book != null}" style="border: black">
+        <div class="row">
+            <div class="col-6 mx-auto">
+                <div class="row">
+                    <div class="col mx-4">
+                        <div class="h1" th:text="${book.name}"></div>
+                        <div class="row g-2 my-4">
+                            <div class="h4">
+                                <b>Category: </b><span th:text="${book.categories.name}"></span>
+                            </div>
+                            <div class="h4">
+                                <b>Author: </b><span th:text="${book.author}"></span>
+                            </div>
+                            <div class="h4">
+                                <b>Reviews: </b><span th:text="${book.reviews}"></span>
+                            </div>
+                            <div class="h4">
+                                <b>Price: </b><span th:text="${book.price}"></span>KZT
+                            </div>
+                            <div class="h4">Description</div>
+                            <div class="h4">
+                                <div class="col" th:text="${book.description}"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container mt-5" sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')">
+        <div class="row">
+            <div class="col-xl-10 text-center">
+                <button class="btn btn-success mt-2" style="width: 150px" data-bs-toggle="modal"
+                        data-bs-target="#edit">
+                    EDIT
+                </button>
+                <button class="btn btn-danger mt-2" style="width: 150px" data-bs-toggle="modal"
+                        data-bs-target="#delete">
+                    DELETE
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="edit" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content md">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Edit Book</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                </div>
+                <form th:action="@{'/update'}" method="post">
+                    <div class="modal-body">
+                        <input type="hidden" class="form-control" name="book_id"
+                               th:value="${book.id}">
+                        <div>
+                            <label>Name:</label>
+                            <input type="text" class="form-control" name="book_name"
+                                   th:value="${book.name}" required>
+                        </div>
+                        <div class="my-3">
+                            <label>Author:</label>
+                            <input type="text" min="0" step="0.1" class="form-control" name="book_author"
+                                   th:value="${book.author}" required>
+                        </div>
+                        <div>
+                            <label>Reviews:</label>
+                            <input type="number" min="0" max="5" step="0.1" class="form-control" name="book_review"
+                                   th:value="${book.reviews}" required>
+                        </div>
+                        <div class="my-3">
+                            <label>Price:</label>
+                            <input type="number" min="0" class="form-control" name="book_price"
+                                   th:value="${book.price}" required>
+                        </div>
+                        <div>
+                            <label>Category:</label>
+                            <select name="book_category_id" class="form-control" >
+                                <option th:each="type : ${categories}" th:value="${type.id}"><span th:text="${type.name}"></span></option>
+                            </select>
+                        </div>
+                        <div class="my-3">
+                            <label>Description: </label>
+                            <input type="text" name="book_description" class="form-control" th:value="${book.description}" required>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" style="width: 70px">SAVE</button>
+<!--                        <button type="button" class="btn btn-danger" data-bs-toggle="modal"-->
+<!--                                data-bs-target="#delete">-->
+<!--                            DELETE-->
+<!--                        </button>-->
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="delete" tabindex="-1" aria-labelledby="deleteModal"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content md">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModal">Delete Book</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form th:action="@{'/delete'}" method="post">
+                        <input type="hidden" class="form-control" name="book_id" th:value="${book.id}">
+                        <p class="h4 lead">Are You Sure?</p>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                NO
+                            </button>
+                            <button class="btn btn-danger">YES</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</div>
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultrag.net.nz/thymeleaf/layout" layout:decorate="layout/main.html">
+
+<body style="background-color: thistle">
+<div layout:fragment="mainContentPage">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div th:if="${#request.getParameter('success') != null}">
+                    <div class="alert alert-success alert-dismissible fade show mt-2" role="alert">
+                        Book Added Successfully!
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!--    <main class=" mt-3">-->
+
+        <div class="text-center h2 mb-3">
+            Add book
+        </div>
+        <div class="container mt-3">
+            <div class="col-6 mx-auto">
+                <form th:action="@{'/addBook'}" method="post">
+                    <div class="row">
+                        <div class="col-3">
+                            <label for="name">Name:</label>
+                        </div>
+                        <div class="col">
+                            <input type="text" id="name" class="form-control" name="book_name"
+                                   required placeholder="Insert Name">
+                        </div>
+                    </div>
+                    <div class="row my-3">
+                        <div class="col-3">
+                            <label for="author">Author:</label>
+                        </div>
+                        <div class="col">
+                            <input type="text" id="author" class="form-control" name="book_author" required
+                                   placeholder="Insert Author Name ">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-3">
+                            <label for="estimation">Score:</label>
+                        </div>
+                        <div class="col">
+                            <input type="number" min="0" max="5" step="0.1" id="estimation" class="form-control"
+                                   name="book_review" required placeholder="Review">
+                        </div>
+                    </div>
+                    <div class="row my-3">
+                        <div class="col-3">
+                            <label for="price">Price:</label>
+                        </div>
+                        <div class="col">
+                            <input type="number" min="0" id="price" class="form-control" name="book_price"
+                                   required placeholder="Insert Price">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-3">
+                            <label for="type">Category:</label>
+                        </div>
+                        <div class="col">
+                            <select name="book_category_id" id="type" class="form-control" >
+                                <option th:each="c : ${categories}" th:value="${c.id}"><span th:text="${c.name}"></span></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row my-3">
+                        <div class="col-3">
+                            <label for="desc">Description:</label>
+                        </div>
+                        <div class="col">
+                            <textarea id="desc" class="form-control" rows="5"
+                                      name="book_description" required></textarea>
+                        </div>
+                    </div>
+                    <div class="row d-flex justify-content-center mt-5">
+                        <button class="btn btn-secondary" style="width: 300px">ADD NEW BOOK</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+<!--    </main>-->
+
+</div>
+</body>
+</html>

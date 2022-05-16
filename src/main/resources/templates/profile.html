@@ -1,0 +1,15 @@
+<html lang="en"
+      xmlns:th = "http://www.thymeleaf.org"
+      xmlns:layout = "http://www.ultrag.net.nz/thymeleaf/layout"
+      layout:decorate="layout/main.html">
+
+<div layout:fragment="mainContentPage">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h1 class="text-center">Hello <span th:text="${user.full_name}"></span>. This is Profile Page</h1>
+            </div>
+        </div>
+    </div>
+</div>
+</html>
